@@ -57,7 +57,3 @@ ignore_missing_imports = true
 testpaths = ["tests"]
 addopts = "-ra --strict-markers -m 'not slow'"
 markers = ["slow: large-file tests, run with `uv run pytest -m slow`"]
-
-[tool.uv]
-# OneDrive-synced folders reject hardlinks from the uv cache (os error 396).
-link-mode = "copy"
