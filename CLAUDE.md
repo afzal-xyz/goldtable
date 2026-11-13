@@ -47,6 +47,10 @@ tests/
 - Baselines in `.goldtable/`, committed to git.
 - `DiffResult.to_dict()` is stable; changing it needs a CHANGELOG entry.
 - Type widening (INTEGER→BIGINT, FLOAT→DOUBLE) is reported but not a failure unless `--strict-types`.
+- SQLite sources go through DuckDB's `sqlite` extension, which DuckDB downloads on first use (it is not bundled). The SQLite test skips when the extension is missing; CI installs it and sets `GOLDTABLE_REQUIRE_SQLITE=1` so a skip there is a failure.
+- Database sources (`.duckdb`, `.sqlite`) are attached read-only. `Source.open(spec, con)` takes a shared connection so both sides of a diff live on one.
+- DuckDB 2.x: relations have no `fetchone()`; use `fetchall()` (or `limit(1).fetchall()`).
+- `tests/fixtures/gen.py` started minimal in task 1.1 (one table, five formats); mutations are added in 1.10.
 
 ## Working rules
 - One roadmap task per session turn. Finish with tests green, ruff/mypy clean, one commit using conventional commits (`feat:`, `fix:`, `test:`, `docs:`, `chore:`).

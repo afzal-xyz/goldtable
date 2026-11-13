@@ -42,5 +42,12 @@ jobs:
       - name: Type check
         run: uv run mypy src
 
+      # SQLite sources need DuckDB's sqlite extension, which is a download. Install it
+      # here so the SQLite test runs in CI instead of skipping.
+      - name: Install DuckDB sqlite extension
+        run: uv run python -c "import duckdb; duckdb.connect().execute('INSTALL sqlite')"
+
       - name: Test
         run: uv run pytest
+        env:
+          GOLDTABLE_REQUIRE_SQLITE: "1"
